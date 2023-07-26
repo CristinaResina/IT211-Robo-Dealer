@@ -1,1 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Card Dealing Program</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+      background-color: #FAEBD7;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      background-color:#FFEBCD ;
+    }
+
+    #hand {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    p {
+      background-color: #FFE4C4;
+      border: 1px solid #DEB887;
+      padding: 10px;
+      margin: 5px;
+      border-radius: 5px;
+      min-width: 120px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color:#FFFACD;
+      color: black;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color:#E9967A ;
+    }
+  </style>
+</head>
+<body>
+  <h1>Card Dealing Program</h1>
+  <div id="hand"></div>
+  <button onclick="dealHand()">Deal New Hand</button>
+
+  <script>
+    // Card object definition
+    function Card(value, suit) {
+      this.value = value;
+      this.suit = suit;
+    }
+
+    // Function to create a deck of cards
+    function createDeck() {
+      const suits = ['Spades', 'Hearts', 'Diamonds', 'Clubs'];
+      const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'Ace', 'Jack', 'Queen', 'King'];
+
+      const deck = [];
+
+      for (const suit of suits) {
+        for (const value of values) {
+          deck.push(new Card(value, suit));
+        }
+      }
+
+      return deck;
+    }
+
+    let deck = createDeck();
+    let currentHand = [];
+
+    // Function to get a random card index from the deck
+    function getRandomCardIndex() {
+      return Math.floor(Math.random() * deck.length);
+    }
+
+    // Function to deal a new hand of 5 cards
+    function dealHand() {
+      // Clear current hand
+      currentHand = [];
+
+      while (currentHand.length < 5) {
+        const randomIndex = getRandomCardIndex();
+        const card = deck[randomIndex];
+
+        // Check if the card is not already in the current hand
+        if (!currentHand.includes(card)) {
+          currentHand.push(card);
+        }
+      }
+
+      displayHand();
+    }
+
+    // Function to display the current hand
+    function displayHand() {
+      const handContainer = document.getElementById('hand');
+      handContainer.innerHTML = '';
+
+      for (const card of currentHand) {
+        const cardName = card.value === 'Ace' || card.value === 'Jack' || card.value === 'Queen' || card.value === 'King'
+          ? card.value
+          : card.value + ' of ' + card.suit;
+
+        const cardElement = document.createElement('p');
+        cardElement.textContent = cardName;
+        handContainer.appendChild(cardElement);
+      }
+    }
+  </script>
+</body>
+</html>
 
